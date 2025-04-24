@@ -5,6 +5,8 @@
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  grid-template-columns: 1fr 9fr;
+  display: grid;
 }
 .w-80 {
   width: 80%;
@@ -26,7 +28,7 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 768px) {
   body {
     display: flex;
     place-items: center;

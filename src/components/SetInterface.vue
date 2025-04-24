@@ -1,12 +1,17 @@
 <template>
-  <BaseModal @close="$emit('close')">
+  <BaseModal @close="$emit('close', 'dashboard')">
     <h2 class="text-xl font-bold mb-4">Set Interface</h2>
     <form @submit.prevent="submit">
+      <input v-model="form.ip_address" placeholder="Ip Address" class="input" />
       <input v-model="form.name" placeholder="Interface Name" class="input" />
-      <input v-model="form.type" placeholder="Type" class="input" />
+      <input v-model="form.id" placeholder="id" class="input" />
+      <input
+        v-model="form.interface"
+        placeholder="Which interface want to set"
+        class="input"
+      />
       <button class="btn" type="submit">Set Interface</button>
     </form>
-    <pre v-if="response">{{ response }}</pre>
   </BaseModal>
 </template>
 
@@ -14,13 +19,15 @@
 import { ref } from "vue";
 import api from "../axios";
 import BaseModal from "./BaseModal.vue";
-
-const form = ref({ name: "", type: "" });
-const response = ref(null);
+const emit = defineEmits(["connectedData", "close"]);
+const form = ref({ name: "", id: "", interface: "", ip_address: "" });
+const routeros_data = ref([]);
 
 const submit = async () => {
-  const res = await api.post("/set_interface", form.value);
-  response.value = res.data;
+  const res = await api.post("/set-interface", form.value);
+  routeros_data.value = res.data;
+  emit("connectedData", routeros_data.value);
+  emit("close", "dashboard");
 };
 </script>
 
